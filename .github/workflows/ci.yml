@@ -26,7 +26,10 @@ jobs:
         run: command -v gcc || (apt-get update && apt-get install -y --no-install-recommends gcc libc6-dev)
 
       - name: Build and run tests
+        shell: bash
         run: |
+          # GitHub skips the image's entrypoint, so load the IDF env (cmake, ninja) here
+          . "$IDF_PATH/export.sh" > /dev/null
           cmake -S host_test -B host_test/build -G Ninja -DCMAKE_C_COMPILER=gcc -DIDF_PATH="$IDF_PATH"
           cmake --build host_test/build
           ./host_test/build/host_test
