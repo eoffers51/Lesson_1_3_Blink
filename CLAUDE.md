@@ -32,6 +32,10 @@ The script builds with the MinGW gcc in `C:\CTOOLS\mingw32\bin`, which it puts f
 
 Add new tests as `static void test_...` functions plus a `RUN_TEST` line in that file's `run_*_tests()`; a new test file also needs adding to `host_test/CMakeLists.txt` and `test_main.c`.
 
+## CI/CD
+
+`.github/workflows/ci.yml` (GitHub Actions) runs the host tests on Linux gcc inside the `espressif/idf:v6.0.2` container and builds the firmware with `espressif/esp-idf-ci-action` (+ `idf.py merge-bin`), uploading the binaries as an artifact. Pushing a `v*` tag also creates a GitHub Release with them. Host-test code must compile cleanly with both MinGW and Linux gcc (`-Werror`). When bumping the IDF version, update it in the workflow too.
+
 ## Hardware
 
 - The onboard RGB LED is an addressable **WS2812**, not a plain GPIO LED — `gpio_set_level` won't light it. Use the `espressif/led_strip` component (RMT backend, 1 LED).

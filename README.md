@@ -1,5 +1,6 @@
 # 🚨 Lesson 1.3 — Police Siren Lights (ESP32-S3)
 
+[![CI](https://github.com/eoffers51/Lesson_1_3_Blink/actions/workflows/ci.yml/badge.svg)](https://github.com/eoffers51/Lesson_1_3_Blink/actions/workflows/ci.yml)
 ![Board](https://img.shields.io/badge/board-ESP32--S3--DevKitC--1-E7352C)
 ![Framework](https://img.shields.io/badge/ESP--IDF-v6.0.2-blue)
 ![Language](https://img.shields.io/badge/language-C-555555)
@@ -20,8 +21,9 @@ Homework for the **Beetroot Academy** embedded course, lesson 1.3. An ESP32-S3 d
 7. [Design decisions](#-design-decisions)
 8. [Host tests](#-host-tests)
 9. [Build and flash](#-build-and-flash)
-10. [Settings you can change](#-settings-you-can-change)
-11. [Troubleshooting: what I learned](#-troubleshooting-what-i-learned)
+10. [CI/CD](#-cicd)
+11. [Settings you can change](#-settings-you-can-change)
+12. [Troubleshooting: what I learned](#-troubleshooting-what-i-learned)
 
 ---
 
@@ -524,6 +526,31 @@ idf.py -p COM5 monitor        # view the log, exit with Ctrl+]
 ```
 
 `.vscode/` and `.devcontainer/` hold the editor and container setup for the ESP-IDF VS Code extension.
+
+---
+
+## 🤖 CI/CD
+
+GitHub Actions (`.github/workflows/ci.yml`) runs on every push to `main` and every pull request:
+
+| Job | What it does |
+|---|---|
+| **Host tests** | Builds `host_test/` with gcc inside the `espressif/idf:v6.0.2` container (for Unity) and runs it; any failing test fails the job |
+| **Build firmware** | `idf.py build` + `idf.py merge-bin` for `esp32s3` with ESP-IDF v6.0.2, and uploads the binaries as the `firmware-esp32s3` artifact |
+| **Publish release** | Only for tags `v*`: after both jobs pass, creates a GitHub Release with the binaries attached |
+
+To make a release:
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+The release's `Lesson_1_3_Blink-merged.bin` is a single image that is flashed at address `0x0`:
+
+```bash
+python -m esptool --chip esp32s3 -p COM5 write-flash 0x0 Lesson_1_3_Blink-merged.bin
+```
 
 ---
 
