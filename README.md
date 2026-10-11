@@ -28,6 +28,38 @@ Beetroot Academy homework, lesson 1.3 ([`TASK.md`](TASK.md)). An ESP32-S3 flashe
 | 4 | **RGB** | Onboard RGB LED goes red → green → blue |
 | 5 | **One pin** | Blue and green take turns, both driven by GPIO8 |
 
+## 🔁 State machine
+
+Each Boot press moves to the next mode (`siren_next_mode`), always starting from that mode's first step:
+
+```mermaid
+stateDiagram-v2
+    state "Classic" as Classic
+    state "Double flash" as DoubleFlash
+    state "Fast" as Fast
+    state "RGB" as RGB
+    state "One pin" as OnePin
+
+    [*] --> Classic: power on
+    Classic --> DoubleFlash: Boot pressed
+    DoubleFlash --> Fast: Boot pressed
+    Fast --> RGB: Boot pressed
+    RGB --> OnePin: Boot pressed
+    OnePin --> Classic: Boot pressed
+```
+
+Inside a mode, `siren_update` moves to the next step when its time is up and wraps back to the first one. For example, **Classic**:
+
+```mermaid
+stateDiagram-v2
+    state "Red on" as Red
+    state "Blue on" as Blue
+
+    [*] --> Red
+    Red --> Blue: after 400 ms
+    Blue --> Red: after 400 ms
+```
+
 ## 🔌 Wiring
 
 ```text
