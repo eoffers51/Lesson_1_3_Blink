@@ -544,7 +544,6 @@ idf.py -p COM5 monitor        # view the log, exit with Ctrl+]
 ## 🩺 Troubleshooting: what I learned
 
 - **The RGB LED pin depends on the board.** Espressif's DevKitC-1 v1.0 uses GPIO48 and v1.1 uses GPIO38. My board looks like a v1.1, but it is a clone and its LED is on **GPIO48**. With GPIO38 the RGB LED stayed dark.
-- **A blinking green light is not necessarily the RGB LED.** With the wrong pin I still saw a small green light blinking in time with the program. It was most likely the CH343 USB-UART chip's activity LED, which flashes whenever the board sends a log message. The red → green → blue test settled it, because only the real RGB LED changes color.
 - **`gpio_set_level` cannot drive a WS2812.** The LED needs timed data pulses, which is why the project uses RMT and `led_strip`.
 - **Buttons bounce.** A single press can read as several quick presses. The `button` component filters this out, and the host tests prove it.
 - **The Boot button is special only at reset.** Holding it while the board starts enters download (flash) mode. Once the program is running, it is a normal input.
