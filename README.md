@@ -86,10 +86,10 @@ GPIO48 = onboard WS2812 RGB LED,  GPIO0 = Boot button (active LOW)
 
 Wokwi simulates the ESP32-S3 and runs the compiled firmware. It can't compile ESP-IDF in the browser, so you give it the `.bin` built by `idf.py` or CI.
 
-- **Browser:** open the [**Wokwi project**](https://wokwi.com/projects/477673393523940353), download `Lesson_1_3_Blink-merged.bin` from the [latest release](https://github.com/eoffers51/Lesson_1_3_Blink/releases/latest), click in the code editor, press **F1 → Upload Firmware and Start Simulation…** and pick the file. Click **BOOT** to switch modes.
+- **Browser:** open the [**Wokwi project**](https://wokwi.com/projects/477673393523940353), download `Lesson_1_3_Blink-merged.bin` from the [latest release](https://github.com/eoffers51/Lesson_1_3_Blink/releases/latest) (or, for the newest commit, from the `firmware-esp32s3` artifact of a [CI run](https://github.com/eoffers51/Lesson_1_3_Blink/actions/workflows/ci.yml) — needs a GitHub login, unzip it first), click in the code editor, press **F1 → Upload Firmware and Start Simulation…** and pick the file. Click **BOOT** to switch modes.
 - **VS Code:** install the *Wokwi Simulator* extension, run `idf.py build`, then *Wokwi: Start Simulator* ([`wokwi.toml`](wokwi.toml) points it at the build, [`diagram.json`](diagram.json) holds the circuit).
 
-Wokwi's DevKitC-1 has its RGB LED on GPIO38 and no clickable Boot button, so the diagram adds a NeoPixel on **GPIO48** and a button on **GPIO0** to match this board.
+Wokwi's DevKitC-1 has its RGB LED on GPIO38 and no clickable Boot button, so the diagram adds a NeoPixel on **GPIO48** and a button on **GPIO0** to match this board. Wokwi also smooths LED brightness, so in **Double flash** the two quick 60 ms flashes blend into one; on the real board you see both.
 
 ## 🏗️ Code structure
 
