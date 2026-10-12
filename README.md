@@ -62,6 +62,11 @@ stateDiagram-v2
 
 ## 🔌 Wiring
 
+![Wiring diagram](docs/wiring.svg)
+
+<details>
+<summary>Text version</summary>
+
 ```text
 GPIO9 ──[R]──►|── red   ── GND      GPIO9 HIGH  → red on
 GPIO8 ──[R]──►|── blue  ── GND      GPIO8 HIGH  → blue on
@@ -70,9 +75,20 @@ GPIO8 as input                      → blue and green both off
 GPIO48 = onboard WS2812 RGB LED,  GPIO0 = Boot button (active LOW)
 ```
 
+</details>
+
 **Two LEDs on one pin:** a GPIO has three states — HIGH (blue on), LOW (green on) and input (both off: blue + green need ~5 V in series, more than 3.3 V). Blue and green can never be on together; `lights_set()` rejects that.
 
 **Onboard LED:** it is an addressable WS2812, so `gpio_set_level` can't light it. It is driven through the RMT peripheral with Espressif's `led_strip` component.
+
+## 🖥️ Simulate in Wokwi
+
+[`diagram.json`](diagram.json) describes the same circuit for the [Wokwi](https://wokwi.com) simulator, and [`wokwi.toml`](wokwi.toml) points it at the built firmware.
+
+- **VS Code:** install the *Wokwi Simulator* extension, run `idf.py build`, then *Wokwi: Start Simulator*.
+- **Browser:** open a new [ESP32-S3 project](https://wokwi.com/projects/new/esp32-s3), paste `diagram.json` into its `diagram.json` tab, press **F1 → Upload Firmware and Start Simulation** and pick `Lesson_1_3_Blink-merged.bin` from a [release](https://github.com/eoffers51/Lesson_1_3_Blink/releases) or the CI artifact.
+
+Wokwi's DevKitC-1 has its RGB LED on GPIO38 and no clickable Boot button, so the diagram adds a NeoPixel on **GPIO48** and a button on **GPIO0** to match this board.
 
 ## 🏗️ Code structure
 

@@ -41,6 +41,7 @@ Add new tests as `static void test_...` functions plus a `RUN_TEST` line in that
 - The onboard RGB LED is an addressable **WS2812**, not a plain GPIO LED — `gpio_set_level` won't light it. Use the `espressif/led_strip` component (RMT backend, 1 LED).
 - The user's board is a DevKitC-1-style **clone (CH343 USB-UART on COM5)**. Its RGB LED is on **GPIO48** — confirmed on hardware; GPIO38 does nothing despite the board looking like v1.1. Keep the pin in a single `#define`.
 - External LEDs: **red on GPIO9**, **blue and green share GPIO8** — blue GPIO8→LED→GND (HIGH = on), green 3V3→LED→GPIO8 (LOW = on), pin as input = both off. Never drive blue and green together. Mode button = onboard **Boot button, GPIO0** (active LOW).
+- The wiring is drawn in `docs/wiring.svg` (README picture) and `diagram.json` (Wokwi simulator, with `wokwi.toml`). If a pin changes, update both.
 - A small green LED blinks in time with log output (most likely the CH343's UART TX activity light) — it is not the RGB LED, don't mistake it for LED output.
 
 ## Code style
