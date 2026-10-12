@@ -4,7 +4,7 @@
 ![Board](https://img.shields.io/badge/board-ESP32--S3--DevKitC--1-E7352C)
 ![Framework](https://img.shields.io/badge/ESP--IDF-v6.0.2-blue)
 ![Tests](https://img.shields.io/badge/host%20tests-Unity-brightgreen)
-[![Simulate on Wokwi](https://img.shields.io/badge/simulate-Wokwi-6c4cbb)](https://wokwi.com/projects/477673393523940353)
+[![Simulate on Wokwi](https://img.shields.io/badge/simulate-Wokwi-6c4cbb)](https://wokwi.com/projects/477675527233048577)
 
 Beetroot Academy homework, lesson 1.3 ([`TASK.md`](TASK.md)). An ESP32-S3 flashes red and blue LEDs like police siren lights. The **Boot** button switches between five modes.
 
@@ -84,12 +84,13 @@ GPIO48 = onboard WS2812 RGB LED,  GPIO0 = Boot button (active LOW)
 
 ## 🖥️ Simulate in Wokwi
 
-Wokwi simulates the ESP32-S3 and runs the compiled firmware. It can't compile ESP-IDF in the browser, so you give it the `.bin` built by `idf.py` or CI.
+**[▶ Open the Wokwi project](https://wokwi.com/projects/477675527233048577)** and press the green ▶ button (the first build can take a minute or two on Wokwi's free servers). Click **BOOT** to switch modes.
 
-- **Browser:** open the [**Wokwi project**](https://wokwi.com/projects/477673393523940353), download `Lesson_1_3_Blink-merged.bin` from the [latest release](https://github.com/eoffers51/Lesson_1_3_Blink/releases/latest) (or, for the newest commit, from the `firmware-esp32s3` artifact of a [CI run](https://github.com/eoffers51/Lesson_1_3_Blink/actions/workflows/ci.yml) — needs a GitHub login, unzip it first), click in the code editor, press **F1 → Upload Firmware and Start Simulation…** and pick the file. Click **BOOT** to switch modes.
-- **VS Code:** install the *Wokwi Simulator* extension, run `idf.py build`, then *Wokwi: Start Simulator* ([`wokwi.toml`](wokwi.toml) points it at the build, [`diagram.json`](diagram.json) holds the circuit).
+The Wokwi project runs this repo's own C code (`siren`, `lights`, `button`, `main.c`). Wokwi compiles ESP-IDF code with the Arduino ESP32 core, so [`wokwi/`](wokwi) has two small Wokwi-only files: `sketch.ino` starts our `app_main`, and `led.c` drives the RGB LED without the `led_strip` component. The `ESP_LOGI` mode messages don't appear in Wokwi's serial monitor.
 
-Wokwi's DevKitC-1 has its RGB LED on GPIO38 and no clickable Boot button, so the diagram adds a NeoPixel on **GPIO48** and a button on **GPIO0** to match this board. Wokwi also smooths LED brightness, so in **Double flash** the two quick 60 ms flashes blend into one; on the real board you see both.
+- **VS Code:** install the *Wokwi Simulator* extension, run `idf.py build`, then *Wokwi: Start Simulator* — this runs the real firmware ([`wokwi.toml`](wokwi.toml) points to the build, [`diagram.json`](diagram.json) holds the circuit).
+
+Wokwi's DevKitC-1 has its RGB LED on GPIO38 and no clickable Boot button, so the diagram adds a NeoPixel on **GPIO48** and a button on **GPIO0** to match this board. Wokwi also smooths LED brightness, so in **Double flash** the two quick 60 ms flashes blend into one and **Fast** looks like both LEDs glowing; on the real board you see the real blinking.
 
 ## 🏗️ Code structure
 
