@@ -4,6 +4,7 @@
 ![Board](https://img.shields.io/badge/board-ESP32--S3--DevKitC--1-E7352C)
 ![Framework](https://img.shields.io/badge/ESP--IDF-v6.0.2-blue)
 ![Tests](https://img.shields.io/badge/host%20tests-Unity-brightgreen)
+[![Simulate on Wokwi](https://img.shields.io/badge/simulate-Wokwi-6c4cbb)](https://wokwi.com/projects/477673393523940353)
 
 Beetroot Academy homework, lesson 1.3 ([`TASK.md`](TASK.md)). An ESP32-S3 flashes red and blue LEDs like police siren lights. The **Boot** button switches between five modes.
 
@@ -83,10 +84,10 @@ GPIO48 = onboard WS2812 RGB LED,  GPIO0 = Boot button (active LOW)
 
 ## 🖥️ Simulate in Wokwi
 
-[`diagram.json`](diagram.json) describes the same circuit for the [Wokwi](https://wokwi.com) simulator, and [`wokwi.toml`](wokwi.toml) points it at the built firmware.
+Wokwi simulates the ESP32-S3 and runs the compiled firmware. It can't compile ESP-IDF in the browser, so you give it the `.bin` built by `idf.py` or CI.
 
-- **VS Code:** install the *Wokwi Simulator* extension, run `idf.py build`, then *Wokwi: Start Simulator*.
-- **Browser:** open a new [ESP32-S3 project](https://wokwi.com/projects/new/esp32-s3), paste `diagram.json` into its `diagram.json` tab, press **F1 → Upload Firmware and Start Simulation** and pick `Lesson_1_3_Blink-merged.bin` from a [release](https://github.com/eoffers51/Lesson_1_3_Blink/releases) or the CI artifact.
+- **Browser:** open the [**Wokwi project**](https://wokwi.com/projects/477673393523940353), download `Lesson_1_3_Blink-merged.bin` from the [latest release](https://github.com/eoffers51/Lesson_1_3_Blink/releases/latest), click in the code editor, press **F1 → Upload Firmware and Start Simulation…** and pick the file. Click **BOOT** to switch modes.
+- **VS Code:** install the *Wokwi Simulator* extension, run `idf.py build`, then *Wokwi: Start Simulator* ([`wokwi.toml`](wokwi.toml) points it at the build, [`diagram.json`](diagram.json) holds the circuit).
 
 Wokwi's DevKitC-1 has its RGB LED on GPIO38 and no clickable Boot button, so the diagram adds a NeoPixel on **GPIO48** and a button on **GPIO0** to match this board.
 
